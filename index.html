@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Revisão para a Prova de Cirurgia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Clinical Blue & Neutral Grays with Alert Accents -->
+    <!-- Application Structure Plan: A tab-based SPA focusing on the five main topics for the exam. The layout allows for quick, focused study of each topic without scrolling. Critical emergencies (SDVG, Piometra) are presented in visually distinct "spotlight" cards to emphasize their importance. The structure uses interactive charts and tables to facilitate comparison and memorization, directly addressing the user's need for a comprehensive exam review tool. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Mammary tumor risk reduction vs. castration timing. Goal: Inform/Visualize Prevention. Viz: Bar Chart. Interaction: Tooltips with percentages. Justification: Visually demonstrates the high impact of early castration, more memorable than text. Library: Chart.js/Canvas.
+        - Report Info: SDVG & Piometra emergency protocols. Goal: Organize/Emphasize. Viz: Highlighted 'spotlight' cards with detailed, structured lists. Interaction: Static. Justification: Emphasizes the critical, sequential nature of these emergencies, as requested for the exam. Method: HTML/Tailwind.
+        - Report Info: Differential diagnosis of prostatic diseases. Goal: Compare. Viz: Styled HTML Table. Interaction: Static. Justification: Clearly contrasts the key findings for HPB, Abscesses, and Neoplasia, aiding in differential diagnosis recall. Method: HTML/Tailwind.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f9;
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-button.active {
+            border-bottom-color: #3b82f6;
+            color: #3b82f6;
+        }
+        .emergency-card {
+            background-color: #fef2f2;
+            border-left: 5px solid #ef4444;
+        }
+        .highlight-card {
+            background-color: #fffbeb;
+            border-left: 5px solid #f59e0b;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 1.5rem auto 0;
+            height: 300px;
+            max-height: 400px;
+        }
+        h3 { color: #1d4ed8; font-weight: 700; }
+        h4 { color: #1e40af; font-weight: 600; }
+    </style>
+</head>
+<body class="antialiased text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900">Guia de Revisão Final</h1>
+            <p class="text-lg text-gray-600 mt-2">Clínica Cirúrgica de Pequenos Animais</p>
+        </header>
+
+        <!-- Tab Buttons -->
+        <div class="flex flex-wrap justify-center border-b border-gray-200 mb-8 -mx-4">
+            <button class="tab-button py-3 px-4 text-base md:text-lg font-semibold text-gray-600" data-target="hernias">Hérnias</button>
+            <button class="tab-button py-3 px-4 text-base md:text-lg font-semibold text-red-600 active" data-target="sdvg">🚨 SDVG</button>
+            <button class="tab-button py-3 px-4 text-base md:text-lg font-semibold text-gray-600" data-target="neomamaria">🎀 Neoplasia Mamária</button>
+            <button class="tab-button py-3 px-4 text-base md:text-lg font-semibold text-amber-600" data-target="piometra">⚠️ Piometra</button>
+            <button class="tab-button py-3 px-4 text-base md:text-lg font-semibold text-gray-600" data-target="hpb">🐾 HPB</button>
+        </div>
+
+        <!-- Tab Content -->
+        <div id="tab-content">
+            <!-- Hernias -->
+            <div id="hernias" class="tab-pane space-y-6 hidden">
+                <h2 class="text-3xl font-bold mb-4">1. Hérnias</h2>
+                <div class="bg-white p-6 rounded-lg shadow-sm space-y-4">
+                    <p><strong>Definição:</strong> Protrusão de um órgão ou tecido através de uma abertura anormal (anel herniário). É composta por: anel, saco herniário e conteúdo.</p>
+                    
+                    <h3 class="text-xl">Classificação Crítica (Quanto à Redutibilidade)</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Redutível:</strong> O conteúdo pode ser reposicionado manualmente. Risco agudo menor.</li>
+                        <li><strong>Encarcerada (Não Redutível):</strong> O conteúdo está aprisionado. Causa obstrução funcional. <strong>É uma urgência cirúrgica.</strong></li>
+                        <li><strong>Estrangulada:</strong> O suprimento sanguíneo do conteúdo está interrompido, levando à necrose. <strong>É uma emergência de alto risco.</strong></li>
+                    </ul>
+
+                    <h3 class="text-xl">Tipos Principais e Tratamento</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Umbilical:</strong> Congênita, geralmente assintomática. Cirurgia eletiva recomendada.</li>
+                        <li><strong>Inguinal:</strong> Comum em fêmeas. O encarceramento da bexiga é uma emergência.</li>
+                        <li><strong>Perineal:</strong> Comum em cães machos idosos não castrados. A retroflexão da bexiga é uma emergência. O tratamento cirúrgico envolve a <strong>transposição do músculo obturador interno</strong> e a <strong>orquiectomia obrigatória</strong>.</li>
+                    </ul>
+
+                     <h3 class="text-xl">Diagnóstico e Princípios Cirúrgicos</h3>
+                    <p>O diagnóstico baseia-se no exame físico e é confirmado por <strong>ultrassonografia</strong>. A herniorrafia consiste em reduzir o conteúdo viável, ressecar tecido necrótico, e fechar o anel herniário sem tensão.</p>
+                </div>
+            </div>
+
+            <!-- SDVG -->
+            <div id="sdvg" class="tab-pane space-y-6">
+                <div class="emergency-card p-6 rounded-lg shadow-lg">
+                    <h2 class="text-3xl font-bold text-red-700 mb-4">2. Síndrome da Dilatação-Vólvulo Gástrico (SDVG)</h2>
+                    
+                    <h3 class="text-xl">Definição e Fisiopatologia</h3>
+                    <p>Emergência gravíssima! O estômago dilata com gás e torce sobre seu eixo, obstruindo a cárdia e o piloro. A torção comprime a <strong>veia cava caudal e a veia porta</strong>, causando um <strong>choque obstrutivo hipovolêmico</strong>, hipoperfusão de múltiplos órgãos, necrose gástrica/esplênica, sepse e <strong>arritmias cardíacas ventriculares</strong> (12-36h após).</p>
+
+                    <h3 class="text-xl mt-4">Diagnóstico</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Manifestações Clínicas:</strong> Quadro hiperagudo com <strong>distensão abdominal timpânica</strong>, <strong>mímicas de vômito improdutivas</strong>, e sinais de choque.</li>
+                        <li><strong>Exames Complementares:</strong> A <strong>radiografia em decúbito lateral direito</strong> é patognomônica, revelando a imagem de <strong>"C reverso"</strong>. O <strong>lactato sérico > 6 mmol/L</strong> é um indicador de mau prognóstico.</li>
+                    </ul>
+
+                    <h3 class="text-xl mt-4">Tratamento de Emergência (Os 3 Pilares)</h3>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li><strong>Estabilização do Choque:</strong> Fluidoterapia intravenosa agressiva (90 mL/kg/h) com dois cateteres calibrosos nas veias cefálicas.</li>
+                        <li><strong>Descompressão Gástrica:</strong> Alívio imediato da pressão com <strong>sonda orogástrica</strong> ou, se não for possível, <strong>gastrocentese com trocater</strong>.</li>
+                        <li><strong>Tratamento Cirúrgico:</strong> Laparotomia para reposicionar o estômago, avaliar viabilidade dos órgãos (gastrectomia/esplenectomia se necessário) e realizar a <strong>gastropexia incisional</strong>, que é obrigatória para prevenir recidivas.</li>
+                    </ol>
+                    
+                    <h3 class="text-xl mt-4">Prognóstico</h3>
+                    <p>Sempre <strong>reservado</strong>. A mortalidade é de 10 a 50%, e piora com a presença de necrose gástrica.</p>
+                </div>
+            </div>
+
+            <!-- Neoplasia Mamária -->
+            <div id="neomamaria" class="tab-pane space-y-6 hidden">
+                <h2 class="text-3xl font-bold mb-4">3. Neoplasia Mamária</h2>
+                <div class="bg-white p-6 rounded-lg shadow-sm space-y-4">
+                    <p><strong>Definição:</strong> Tumor mais comum em cadelas não castradas, sendo <strong>hormônio-dependente</strong>. 50% são malignos em cadelas; 85-90% em gatas.</p>
+                    
+                    <h3 class="text-xl">Diagnóstico e Estadiamento (TNM)</h3>
+                    <p>O estadiamento pré-cirúrgico é obrigatório. Inclui: <strong>1) Radiografias torácicas em 3 projeções</strong> (pesquisa de metástases pulmonares); <strong>2) Citologia aspirativa</strong> (triagem); <strong>3) Histopatológico</strong> (diagnóstico definitivo).</p>
+
+                    <h3 class="text-xl">Tratamento Cirúrgico (Mastectomia)</h3>
+                    <p>A escolha da técnica varia de <strong>nodulectomia</strong> a <strong>mastectomia radical unilateral</strong> (eleição para gatas). A OVH concomitante é recomendada.</p>
+                    
+                    <h3 class="text-xl">Prognóstico</h3>
+                    <p>Fatores chave são o <strong>tamanho do tumor</strong> (lesões < 3 cm em cadelas têm melhor prognóstico), o <strong>tipo histológico</strong>, e a <strong>presença de metástases</strong>. O <strong>carcinoma inflamatório</strong> é uma forma agressiva, não cirúrgica, com prognóstico péssimo.</p>
+
+                    <div class="chart-container">
+                        <canvas id="riskChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Piometra -->
+            <div id="piometra" class="tab-pane space-y-6 hidden">
+                 <div class="highlight-card p-6 rounded-lg shadow-lg">
+                    <h2 class="text-3xl font-bold text-amber-700 mb-4">4. Piometra</h2>
+                    
+                    <h3 class="text-xl">Definição e Fisiopatologia</h3>
+                    <p>Infecção uterina secundária à **Hiperplasia Endometrial Cística (HEC)**. É uma doença da fase de **diestro**, sob influência da **progesterona**. Pode ser de <strong>cérvix aberta</strong> (com secreção vulvar) ou <strong>cérvix fechada</strong> (sem secreção, mais grave, leva à sepse).</p>
+
+                    <h3 class="text-xl mt-4">Diagnóstico Detalhado</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Manifestações Clínicas:</strong> Histórico de cio há 4-8 semanas. Sinais clássicos de toxemia: **poliúria e polidipsia (PU/PD)**, apatia, anorexia, vômitos.</li>
+                        <li><strong>Exames Complementares:</strong>
+                            <ul class="list-circle list-inside ml-6">
+                                <li><strong>Hemograma:</strong> Mostra <strong>leucocitose por neutrofilia com desvio à esquerda</strong>.</li>
+                                <li><strong>Bioquímica Sérica:</strong> Pode mostrar <strong>azotemia pré-renal</strong>.</li>
+                                <li><strong>Ultrassonografia Abdominal:</strong> É o <strong>método de eleição</strong>, mostrando o útero distendido com conteúdo líquido (pus).</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h3 class="text-xl mt-4">Tratamento Completo</h3>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li><strong>Tratamento de Suporte (Pré-cirúrgico):</strong> Reverter o choque e a desidratação com <strong>fluidoterapia intravenosa agressiva</strong> e iniciar <strong>antibioticoterapia de amplo espectro</strong> (IV).</li>
+                        <li><strong>Tratamento Cirúrgico (Definitivo):</strong> A <strong>Ovario-histerectomia (OVH)</strong> é o tratamento de escolha.</li>
+                    </ol>
+                    
+                    <h3 class="text-xl mt-4">Prognóstico</h3>
+                    <p>Bom em casos de piometra aberta. <strong>Reservado a mau</strong> em pacientes com sepse ou peritonite.</p>
+                </div>
+            </div>
+
+            <!-- HPB -->
+            <div id="hpb" class="tab-pane space-y-6 hidden">
+                <h2 class="text-3xl font-bold mb-4">5. Hiperplasia Prostática Benigna (HPB)</h2>
+                <div class="bg-white p-6 rounded-lg shadow-sm space-y-4">
+                    <p><strong>Definição:</strong> Aumento de volume <strong>simétrico e não doloroso</strong> da próstata, benigno e <strong>andrógeno-dependente</strong> (DHT). Acomete quase todos os cães idosos não castrados.</p>
+                    
+                    <h3 class="text-xl">Diagnóstico</h3>
+                    <p>O <strong>toque retal</strong> é o passo diagnóstico mais importante. A palpação mostra uma próstata aumentada, simétrica, de superfície lisa e indolor. A ultrassonografia confirma os achados. É crucial diferenciar de abscessos (dolorosos) e neoplasias (irregulares, pétreas).</p>
+
+                    <h3 class="text-xl">Sinais Clínicos</h3>
+                    <p>Os sinais são principalmente compressivos do trato digestivo: <strong>disquesia (dificuldade para defecar), tenesmo e fezes em formato de fita</strong>.</p>
+                    
+                    <h3 class="text-xl">Tratamento e Prognóstico</h3>
+                    <p>A <strong>orquiectomia (castração) é o tratamento de eleição e é curativo</strong>. A remoção da fonte hormonal leva à involução da glândula. O prognóstico é <strong>excelente</strong>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab-button');
+            const panes = document.querySelectorAll('.tab-pane');
+
+            // Default to SDVG
+            document.querySelector('[data-target="sdvg"]').classList.add('active');
+            document.getElementById('sdvg').classList.remove('hidden');
+            
+            tabs.forEach(tab => {
+                if(tab.dataset.target !== 'sdvg') {
+                    tab.classList.remove('active');
+                    document.getElementById(tab.dataset.target).classList.add('hidden');
+                }
+            });
+
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    panes.forEach(p => p.classList.add('hidden'));
+
+                    tab.classList.add('active');
+                    document.getElementById(tab.dataset.target).classList.remove('hidden');
+                });
+            });
+
+            const ctx = document.getElementById('riskChart')?.getContext('2d');
+            if(ctx) {
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Antes do 1º Cio', 'Após 1º Cio', 'Após 2º Cio', 'Não Castrada'],
+                        datasets: [{
+                            label: 'Risco de desenvolver tumor mamário',
+                            data: [0.5, 8, 26, 100],
+                             backgroundColor: [
+                                'rgba(75, 192, 192, 0.6)',
+                                'rgba(255, 206, 86, 0.6)',
+                                'rgba(255, 159, 64, 0.6)',
+                                'rgba(255, 99, 132, 0.6)'
+                            ],
+                            borderColor: [
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(255, 99, 132, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: { y: { beginAtZero: true, title: { display: true, text: 'Risco Relativo (%)' } } },
+                        plugins: { legend: { display: false }, tooltip: { callbacks: { label: (context) => `Risco: ${context.raw}%` } } }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
